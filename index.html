@@ -48,7 +48,7 @@ body {
   line-height: 1.7;
 }
 
-/* ===== SCROLL REVEAL ===== */
+/* ===== SCROLL REVEAL — slide from left/right alternating ===== */
 .reveal {
   opacity: 0;
   transform: translateY(24px);
@@ -56,13 +56,80 @@ body {
 }
 .reveal.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) translateX(0);
+}
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-right {
+  opacity: 0;
+  transform: translateX(60px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-left.visible,
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
 }
 .reveal-d1 { transition-delay: 0.08s; }
 .reveal-d2 { transition-delay: 0.16s; }
 .reveal-d3 { transition-delay: 0.24s; }
 .reveal-d4 { transition-delay: 0.32s; }
 .reveal-d5 { transition-delay: 0.40s; }
+
+/* ===== GOLD SHIMMER FOR SECTION TITLES ===== */
+@keyframes goldShimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 5vw, 3rem);
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.03em;
+  margin-bottom: 8px;
+  background: linear-gradient(90deg, var(--burgundy) 0%, var(--burgundy) 35%, #e8c840 50%, var(--burgundy) 65%, var(--burgundy) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: goldShimmer 4s ease-in-out infinite;
+}
+
+/* ===== DIVIDER GROW ANIMATION ===== */
+.divider-line {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--rose-gold), transparent);
+  transform: scaleX(0);
+  transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
+}
+.divider-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--burgundy);
+  transform: scale(0);
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.6s;
+}
+.visible .divider-line,
+.reveal.visible ~ .divider .divider-line {
+  transform: scaleX(1);
+}
+.visible .divider-dot,
+.reveal.visible ~ .divider .divider-dot {
+  transform: scale(1);
+}
+
+/* ===== FLOAT/BOB ANIMATION ON HOVER FOR CARDS ===== */
+@keyframes floatBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
 
 /* ===== HERO ===== */
 .hero {
@@ -87,19 +154,6 @@ body {
 @keyframes heroGradient {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
-}
-
-/* Gymnast watermark */
-.hero-watermark {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 400px;
-  height: 500px;
-  opacity: 0.12;
-  pointer-events: none;
-  z-index: 1;
 }
 
 .hero-frame {
@@ -131,18 +185,63 @@ body {
   pointer-events: none;
 }
 
-/* Corner ornaments */
+/* ===== ORNATE CORNER ORNAMENTS (вензеля) ===== */
 .corner-ornament {
   position: absolute;
-  width: 32px;
-  height: 32px;
+  width: 56px;
+  height: 56px;
   z-index: 3;
 }
 .corner-ornament svg { width: 100%; height: 100%; }
-.corner-tl { top: -1px; left: -1px; }
-.corner-tr { top: -1px; right: -1px; transform: scaleX(-1); }
-.corner-bl { bottom: -1px; left: -1px; transform: scaleY(-1); }
-.corner-br { bottom: -1px; right: -1px; transform: scale(-1, -1); }
+.corner-tl { top: -4px; left: -4px; }
+.corner-tr { top: -4px; right: -4px; transform: scaleX(-1); }
+.corner-bl { bottom: -4px; left: -4px; transform: scaleY(-1); }
+.corner-br { bottom: -4px; right: -4px; transform: scale(-1, -1); }
+
+/* Corner drawing animation */
+@keyframes drawCorner {
+  from { stroke-dashoffset: 200; }
+  to { stroke-dashoffset: 0; }
+}
+
+.corner-ornament svg path,
+.corner-ornament svg circle {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: drawCorner 2.5s ease forwards;
+}
+.corner-ornament svg path:nth-child(2) { animation-delay: 0.3s; }
+.corner-ornament svg path:nth-child(3) { animation-delay: 0.6s; }
+.corner-ornament svg path:nth-child(4) { animation-delay: 0.9s; }
+.corner-ornament svg circle { animation-delay: 1.2s; }
+
+/* Section corner ornaments */
+.section-ornament {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  opacity: 0.25;
+  pointer-events: none;
+}
+.section-ornament svg { width: 100%; height: 100%; }
+.section-ornament.so-tl { top: 12px; left: 12px; }
+.section-ornament.so-tr { top: 12px; right: 12px; transform: scaleX(-1); }
+.section-ornament.so-bl { bottom: 12px; left: 12px; transform: scaleY(-1); }
+.section-ornament.so-br { bottom: 12px; right: 12px; transform: scale(-1,-1); }
+
+/* Card corner ornaments */
+.card-ornament {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  opacity: 0.25;
+  pointer-events: none;
+}
+.card-ornament svg { width: 100%; height: 100%; }
+.card-ornament.co-tl { top: 4px; left: 4px; }
+.card-ornament.co-tr { top: 4px; right: 4px; transform: scaleX(-1); }
+.card-ornament.co-bl { bottom: 4px; left: 4px; transform: scaleY(-1); }
+.card-ornament.co-br { bottom: 4px; right: 4px; transform: scale(-1,-1); }
 
 .hero-badge {
   display: inline-block;
@@ -268,6 +367,8 @@ body {
 /* ===== SECTION STYLING ===== */
 .section {
   padding: 96px 0;
+  position: relative;
+  overflow: hidden;
 }
 
 .section-alt {
@@ -278,14 +379,19 @@ body {
 .section:nth-of-type(5) { background: var(--section-lavender); }
 .section:nth-of-type(7) { background: var(--section-gold); }
 
-.section-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.2rem, 5vw, 3rem);
-  font-weight: 700;
-  text-align: center;
-  color: var(--burgundy);
-  letter-spacing: 0.03em;
-  margin-bottom: 8px;
+/* Parallax-like subtle shift for section backgrounds */
+.section::before {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  z-index: 0;
+  background: inherit;
+  transition: transform 0.1s linear;
+  pointer-events: none;
+}
+.section > * {
+  position: relative;
+  z-index: 1;
 }
 
 .section-subtitle {
@@ -309,25 +415,64 @@ body {
   max-width: 200px;
 }
 
-.divider-line {
-  flex: 1;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--rose-gold), transparent);
-}
-
-.divider-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--burgundy);
-}
-
-/* Section separator between sections */
+/* ===== DECORATIVE SECTION SEPARATOR ===== */
 .section-separator {
   display: block;
-  max-width: 300px;
-  margin: 0 auto;
-  height: 1px;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  height: 24px;
+  background: linear-gradient(to bottom,
+    transparent 4px,
+    var(--rose-gold) 4px,
+    var(--rose-gold) 5px,
+    transparent 5px,
+    transparent 8px,
+    rgba(212,160,23,0.3) 8px,
+    rgba(212,160,23,0.3) 8.5px,
+    transparent 8.5px,
+    transparent 11px,
+    var(--rose-gold) 11px,
+    var(--rose-gold) 11.5px,
+    transparent 11.5px,
+    transparent 14.5px,
+    rgba(212,160,23,0.3) 14.5px,
+    rgba(212,160,23,0.3) 15px,
+    transparent 15px,
+    transparent 18px,
+    var(--rose-gold) 18px,
+    var(--rose-gold) 19px,
+    transparent 19px
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.section-separator::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background: var(--cream);
+  border: 2px solid var(--rose-gold);
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.section-separator::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 4px;
+  background: var(--burgundy);
+  border-radius: 50%;
+  z-index: 3;
 }
 
 /* ===== GOALS GRID ===== */
@@ -352,7 +497,7 @@ body {
 .goal-card:nth-child(3), .goal-card:nth-child(6) { border-bottom-color: var(--purple); }
 
 .goal-card:hover {
-  transform: translateY(-4px);
+  animation: floatBob 1.5s ease-in-out infinite;
   box-shadow: var(--shadow-lg);
 }
 
@@ -373,6 +518,7 @@ body {
   border: 1px solid rgba(212,160,23,0.15);
   border-left: 4px solid var(--rose-gold);
   transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  position: relative;
 }
 
 .card:nth-child(even) {
@@ -384,7 +530,7 @@ body {
 }
 
 .card:hover {
-  transform: translateY(-2px);
+  animation: floatBob 1.5s ease-in-out infinite;
   box-shadow: var(--shadow-md);
 }
 
@@ -514,11 +660,12 @@ tbody tr:nth-child(even) {
 }
 
 tbody tr {
-  transition: background var(--transition);
+  transition: background 0.4s ease, transform 0.3s ease;
 }
 
 tbody tr:hover {
   background: var(--rose-gold-pale);
+  transform: scale(1.01);
 }
 
 .table-container + .table-container {
@@ -555,7 +702,7 @@ tbody tr:hover {
 .ofp-card:nth-child(3) { border-top-color: var(--purple); }
 
 .ofp-card:hover {
-  transform: translateY(-4px);
+  animation: floatBob 1.5s ease-in-out infinite;
   box-shadow: var(--shadow-lg);
 }
 
@@ -629,6 +776,8 @@ tbody tr:hover {
   border: 1px solid rgba(212,160,23,0.15);
   border-top: 4px solid var(--rose-gold);
   transition: transform var(--transition), box-shadow var(--transition);
+  position: relative;
+  overflow: hidden;
 }
 
 .price-card:nth-child(2) { border-top-color: var(--burgundy); }
@@ -636,7 +785,7 @@ tbody tr:hover {
 .price-card:nth-child(4) { border-top-color: var(--teal); }
 
 .price-card:hover {
-  transform: translateY(-4px);
+  animation: floatBob 1.5s ease-in-out infinite;
   box-shadow: var(--shadow-lg);
 }
 
@@ -665,6 +814,23 @@ tbody tr:hover {
 }
 
 /* ===== CONTACT ===== */
+.contact-frame {
+  position: relative;
+  border: 2px solid var(--rose-gold);
+  border-radius: 8px;
+  padding: 48px 36px;
+  background: rgba(255,255,255,0.5);
+}
+
+.contact-frame::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(212,160,23,0.25);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
 .contact-block {
   text-align: center;
   max-width: 500px;
@@ -837,6 +1003,11 @@ footer p + p {
   th, td {
     padding: 10px 12px;
   }
+
+  .section-ornament {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -861,58 +1032,76 @@ footer p + p {
   }
 
   .corner-ornament {
-    width: 24px;
-    height: 24px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .section-ornament {
+    width: 32px;
+    height: 32px;
   }
 }
 </style>
 </head>
 <body>
 
+<!-- Inline SVG definitions for ornamental patterns -->
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden;">
+  <defs>
+    <!-- Ornate corner vignette (Russian imperial scrollwork) -->
+    <symbol id="ornate-corner" viewBox="0 0 80 80">
+      <path d="M2 2 L28 2" stroke="#d4a017" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <path d="M2 2 L2 28" stroke="#d4a017" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <path d="M6 2 C6 14 14 22 2 22" stroke="#d4a017" stroke-width="1" fill="none" opacity="0.8"/>
+      <path d="M2 6 C14 6 20 14 20 2" stroke="#d4a017" stroke-width="1" fill="none" opacity="0.8"/>
+      <!-- Curling vine scroll -->
+      <path d="M10 2 C10 10 16 16 24 12 C30 9 28 18 22 20 C16 22 18 28 24 26 C30 24 32 16 36 14" stroke="#d4a017" stroke-width="1" fill="none" opacity="0.7" stroke-linecap="round"/>
+      <path d="M2 10 C10 10 16 16 12 24 C9 30 18 28 20 22 C22 16 28 18 26 24 C24 30 16 32 14 36" stroke="#d4a017" stroke-width="1" fill="none" opacity="0.7" stroke-linecap="round"/>
+      <!-- Decorative curls -->
+      <path d="M14 6 C18 4 20 8 16 10 C12 12 14 16 18 14" stroke="#d4a017" stroke-width="0.8" fill="none" opacity="0.6"/>
+      <path d="M6 14 C4 18 8 20 10 16 C12 12 16 14 14 18" stroke="#d4a017" stroke-width="0.8" fill="none" opacity="0.6"/>
+      <circle cx="8" cy="8" r="1.5" fill="#d4a017" opacity="0.5"/>
+    </symbol>
+
+    <!-- Larger ornate corner for hero -->
+    <symbol id="hero-corner" viewBox="0 0 56 56">
+      <path d="M2 2 L22 2" stroke="#d4a017" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <path d="M2 2 L2 22" stroke="#d4a017" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <path d="M6 2 C6 12 12 18 2 18" stroke="#d4a017" stroke-width="1.2" fill="none"/>
+      <path d="M2 6 C12 6 18 12 18 2" stroke="#d4a017" stroke-width="1.2" fill="none"/>
+      <!-- Scrollwork -->
+      <path d="M10 2 C10 8 14 14 22 10 C28 7 26 16 20 18 C14 20 16 26 22 24" stroke="#d4a017" stroke-width="1" fill="none" opacity="0.8" stroke-linecap="round"/>
+      <path d="M2 10 C8 10 14 14 10 22 C7 28 16 26 18 20 C20 14 26 16 24 22" stroke="#d4a017" stroke-width="1" fill="none" opacity="0.8" stroke-linecap="round"/>
+      <!-- Leaf/petal motifs -->
+      <path d="M12 4 Q16 2 14 8 Q12 12 8 10 Q4 8 8 4 Q10 2 12 4 Z" stroke="#d4a017" stroke-width="0.7" fill="rgba(212,160,23,0.1)" opacity="0.7"/>
+      <path d="M4 12 Q2 16 8 14 Q12 12 10 8 Q8 4 4 8 Q2 10 4 12 Z" stroke="#d4a017" stroke-width="0.7" fill="rgba(212,160,23,0.1)" opacity="0.7"/>
+      <circle cx="7" cy="7" r="1.8" fill="#d4a017" opacity="0.5"/>
+      <circle cx="18" cy="4" r="1" fill="#d4a017" opacity="0.4"/>
+      <circle cx="4" cy="18" r="1" fill="#d4a017" opacity="0.4"/>
+    </symbol>
+
+    <!-- Small corner for price cards -->
+    <symbol id="small-corner" viewBox="0 0 28 28">
+      <path d="M2 2 L12 2" stroke="#d4a017" stroke-width="1" fill="none" stroke-linecap="round"/>
+      <path d="M2 2 L2 12" stroke="#d4a017" stroke-width="1" fill="none" stroke-linecap="round"/>
+      <path d="M5 2 C5 7 7 9 2 9" stroke="#d4a017" stroke-width="0.8" fill="none" opacity="0.7"/>
+      <path d="M7 2 C7 5 9 7 12 5" stroke="#d4a017" stroke-width="0.6" fill="none" opacity="0.5"/>
+      <path d="M2 7 C5 7 7 9 5 12" stroke="#d4a017" stroke-width="0.6" fill="none" opacity="0.5"/>
+      <circle cx="4" cy="4" r="1" fill="#d4a017" opacity="0.5"/>
+    </symbol>
+  </defs>
+</svg>
+
 <!-- ===== HERO ===== -->
 <div class="hero">
   <div class="hero-bg"></div>
 
-  <!-- Faint gymnast silhouette watermark -->
-  <div class="hero-watermark">
-    <svg viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M200 60 C185 55 175 70 178 85 L168 105 L140 88 C125 78 118 95 130 102 L162 118 L155 155 L122 172 C108 180 115 198 128 190 L158 172 L150 220 L125 280 C118 298 138 305 142 288 L168 230 L175 280 L162 340 C158 358 178 362 180 345 L192 280 L205 345 C208 362 228 358 225 340 L212 280 L218 230 L245 288 C248 305 268 298 262 280 L235 220 L228 172 L258 190 C272 198 278 180 265 172 L232 155 L225 118 L258 102 C268 95 262 78 248 88 L218 105 L208 85 C212 70 202 55 188 60 Z" fill="#2d2a26"/>
-      <circle cx="195" cy="42" r="18" fill="#2d2a26"/>
-      <path d="M140 88 Q110 68 95 55 Q88 48 98 42" stroke="#2d2a26" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <ellipse cx="95" cy="40" rx="6" ry="8" fill="#2d2a26" transform="rotate(-20,95,40)"/>
-    </svg>
-  </div>
-
   <div class="hero-frame">
-    <!-- Corner ornaments -->
-    <div class="corner-ornament corner-tl">
-      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 0 L12 0" stroke="#d4a017" stroke-width="1"/>
-        <path d="M0 0 L0 12" stroke="#d4a017" stroke-width="1"/>
-        <path d="M4 0 Q4 4 0 4" stroke="#d4a017" stroke-width="1" opacity="0.7"/>
-      </svg>
-    </div>
-    <div class="corner-ornament corner-tr">
-      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 0 L12 0" stroke="#d4a017" stroke-width="1"/>
-        <path d="M0 0 L0 12" stroke="#d4a017" stroke-width="1"/>
-        <path d="M4 0 Q4 4 0 4" stroke="#d4a017" stroke-width="1" opacity="0.7"/>
-      </svg>
-    </div>
-    <div class="corner-ornament corner-bl">
-      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 0 L12 0" stroke="#d4a017" stroke-width="1"/>
-        <path d="M0 0 L0 12" stroke="#d4a017" stroke-width="1"/>
-        <path d="M4 0 Q4 4 0 4" stroke="#d4a017" stroke-width="1" opacity="0.7"/>
-      </svg>
-    </div>
-    <div class="corner-ornament corner-br">
-      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 0 L12 0" stroke="#d4a017" stroke-width="1"/>
-        <path d="M0 0 L0 12" stroke="#d4a017" stroke-width="1"/>
-        <path d="M4 0 Q4 4 0 4" stroke="#d4a017" stroke-width="1" opacity="0.7"/>
-      </svg>
-    </div>
+    <!-- Ornate corner ornaments -->
+    <div class="corner-ornament corner-tl"><svg><use href="#hero-corner"/></svg></div>
+    <div class="corner-ornament corner-tr"><svg><use href="#hero-corner"/></svg></div>
+    <div class="corner-ornament corner-bl"><svg><use href="#hero-corner"/></svg></div>
+    <div class="corner-ornament corner-br"><svg><use href="#hero-corner"/></svg></div>
 
     <div class="hero-badge">Официальное приглашение</div>
     <h1>Русские сказки</h1>
@@ -939,8 +1128,17 @@ footer p + p {
   </div>
 </div>
 
+<!-- ===== SEPARATOR ===== -->
+<div class="section-separator"></div>
+
 <!-- ===== ЦЕЛИ ТУРНИРА ===== -->
 <div class="section">
+  <!-- Section corner ornaments -->
+  <div class="section-ornament so-tl"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-tr"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-bl"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-br"><svg><use href="#ornate-corner"/></svg></div>
+
   <div class="content-wrap">
     <div class="reveal">
       <div class="section-title">Цели турнира</div>
@@ -952,30 +1150,38 @@ footer p + p {
     </div>
 
     <div class="goals-grid">
-      <div class="goal-card reveal reveal-d1">
+      <div class="goal-card reveal reveal-d1 reveal-left">
         <p>Популяризация художественной гимнастики</p>
       </div>
       <div class="goal-card reveal reveal-d2">
         <p>Укрепление связей между спортивными клубами</p>
       </div>
-      <div class="goal-card reveal reveal-d3">
+      <div class="goal-card reveal reveal-d3 reveal-right">
         <p>Выявление талантливых и перспективных гимнасток</p>
       </div>
-      <div class="goal-card reveal reveal-d1">
+      <div class="goal-card reveal reveal-d1 reveal-left">
         <p>Приобретение соревновательного опыта</p>
       </div>
       <div class="goal-card reveal reveal-d2">
         <p>Повышение мастерства гимнасток</p>
       </div>
-      <div class="goal-card reveal reveal-d3">
+      <div class="goal-card reveal reveal-d3 reveal-right">
         <p>Мотивация и вдохновение юных спортсменок</p>
       </div>
     </div>
   </div>
 </div>
 
+<!-- ===== SEPARATOR ===== -->
+<div class="section-separator"></div>
+
 <!-- ===== УЧАСТНИКИ ===== -->
 <div class="section section-alt">
+  <div class="section-ornament so-tl"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-tr"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-bl"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-br"><svg><use href="#ornate-corner"/></svg></div>
+
   <div class="content-wrap">
     <div class="reveal">
       <div class="section-title">Участники</div>
@@ -986,7 +1192,7 @@ footer p + p {
       </div>
     </div>
 
-    <div class="card card-accent reveal">
+    <div class="card card-accent reveal reveal-left">
       <p>В турнире принимают участие гимнастки из спортивных клубов, кружков, секций и спортивных школ.</p>
       <br>
       <p><strong>Состав команды:</strong> неограниченное количество участниц, тренер, судья.</p>
@@ -996,8 +1202,16 @@ footer p + p {
   </div>
 </div>
 
+<!-- ===== SEPARATOR ===== -->
+<div class="section-separator"></div>
+
 <!-- ===== ИНДИВИДУАЛЬНАЯ ПРОГРАММА ===== -->
 <div class="section">
+  <div class="section-ornament so-tl"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-tr"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-bl"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-br"><svg><use href="#ornate-corner"/></svg></div>
+
   <div class="content-wrap">
     <div class="reveal">
       <div class="section-title">Индивидуальная программа</div>
@@ -1008,7 +1222,7 @@ footer p + p {
       </div>
     </div>
 
-    <div class="table-container reveal">
+    <div class="table-container reveal reveal-right">
       <table>
         <thead>
           <tr><th>Год рождения</th><th>А+</th><th>А</th><th>В</th><th>С</th><th>F (ОФП)</th></tr>
@@ -1032,8 +1246,16 @@ footer p + p {
   </div>
 </div>
 
+<!-- ===== SEPARATOR ===== -->
+<div class="section-separator"></div>
+
 <!-- ===== ГРУППОВЫЕ УПРАЖНЕНИЯ ===== -->
 <div class="section section-alt">
+  <div class="section-ornament so-tl"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-tr"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-bl"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-br"><svg><use href="#ornate-corner"/></svg></div>
+
   <div class="content-wrap">
     <div class="reveal">
       <div class="section-title">Групповые упражнения</div>
@@ -1044,7 +1266,7 @@ footer p + p {
       </div>
     </div>
 
-    <div class="table-container reveal">
+    <div class="table-container reveal reveal-left">
       <table>
         <thead><tr><th>Год рождения</th><th>Категория А</th><th>Категория B</th></tr></thead>
         <tbody>
@@ -1060,7 +1282,7 @@ footer p + p {
 
     <div class="table-label reveal">Дуэты и трио</div>
 
-    <div class="table-container reveal">
+    <div class="table-container reveal reveal-right">
       <table>
         <thead><tr><th>Год рождения</th><th>Программа</th></tr></thead>
         <tbody>
@@ -1075,8 +1297,16 @@ footer p + p {
   </div>
 </div>
 
+<!-- ===== SEPARATOR ===== -->
+<div class="section-separator"></div>
+
 <!-- ===== ОФП ===== -->
 <div class="section">
+  <div class="section-ornament so-tl"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-tr"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-bl"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-br"><svg><use href="#ornate-corner"/></svg></div>
+
   <div class="content-wrap">
     <div class="reveal">
       <div class="section-title">Нормативы ОФП</div>
@@ -1088,7 +1318,7 @@ footer p + p {
     </div>
 
     <div class="ofp-grid">
-      <div class="ofp-card reveal reveal-d1">
+      <div class="ofp-card reveal reveal-d1 reveal-left">
         <h4>2020 г.р. и младше</h4>
         <ul>
           <li>Складочка</li>
@@ -1113,7 +1343,7 @@ footer p + p {
           <li>Чупа-Чупс</li>
         </ul>
       </div>
-      <div class="ofp-card reveal reveal-d3">
+      <div class="ofp-card reveal reveal-d3 reveal-right">
         <h4>2016 г.р. и старше</h4>
         <ul>
           <li>Складочка</li>
@@ -1130,8 +1360,16 @@ footer p + p {
   </div>
 </div>
 
+<!-- ===== SEPARATOR ===== -->
+<div class="section-separator"></div>
+
 <!-- ===== НАГРАЖДЕНИЕ ===== -->
 <div class="section section-alt">
+  <div class="section-ornament so-tl"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-tr"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-bl"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-br"><svg><use href="#ornate-corner"/></svg></div>
+
   <div class="content-wrap">
     <div class="reveal">
       <div class="section-title">Награждение</div>
@@ -1146,7 +1384,7 @@ footer p + p {
       <p>Все гимнастки на пьедестале</p>
     </div>
 
-    <div class="card reveal">
+    <div class="card reveal reveal-left">
       <ul>
         <li>Победители и призёры (1&ndash;3 место) по наибольшей сумме баллов</li>
         <li>Медали, дипломы и ценные призы</li>
@@ -1158,8 +1396,16 @@ footer p + p {
   </div>
 </div>
 
+<!-- ===== SEPARATOR ===== -->
+<div class="section-separator"></div>
+
 <!-- ===== СТАРТОВЫЙ ВЗНОС ===== -->
 <div class="section">
+  <div class="section-ornament so-tl"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-tr"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-bl"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-br"><svg><use href="#ornate-corner"/></svg></div>
+
   <div class="content-wrap">
     <div class="reveal">
       <div class="section-title">Стартовый взнос</div>
@@ -1171,22 +1417,39 @@ footer p + p {
     </div>
 
     <div class="pricing-grid">
-      <div class="price-card reveal reveal-d1">
+      <div class="price-card reveal reveal-d1 reveal-left">
+        <!-- Card corner ornaments -->
+        <div class="card-ornament co-tl"><svg><use href="#small-corner"/></svg></div>
+        <div class="card-ornament co-tr" style="transform:scaleX(-1)"><svg><use href="#small-corner"/></svg></div>
+        <div class="card-ornament co-bl" style="transform:scaleY(-1)"><svg><use href="#small-corner"/></svg></div>
+        <div class="card-ornament co-br" style="transform:scale(-1,-1)"><svg><use href="#small-corner"/></svg></div>
         <div class="type">Индивидуальная</div>
         <div class="amount">4 500 &#8381;</div>
         <div class="per">с гимнастки</div>
       </div>
       <div class="price-card reveal reveal-d2">
+        <div class="card-ornament co-tl"><svg><use href="#small-corner"/></svg></div>
+        <div class="card-ornament co-tr" style="transform:scaleX(-1)"><svg><use href="#small-corner"/></svg></div>
+        <div class="card-ornament co-bl" style="transform:scaleY(-1)"><svg><use href="#small-corner"/></svg></div>
+        <div class="card-ornament co-br" style="transform:scale(-1,-1)"><svg><use href="#small-corner"/></svg></div>
         <div class="type">Группа</div>
         <div class="amount">15 000 &#8381;</div>
         <div class="per">с команды</div>
       </div>
       <div class="price-card reveal reveal-d3">
+        <div class="card-ornament co-tl"><svg><use href="#small-corner"/></svg></div>
+        <div class="card-ornament co-tr" style="transform:scaleX(-1)"><svg><use href="#small-corner"/></svg></div>
+        <div class="card-ornament co-bl" style="transform:scaleY(-1)"><svg><use href="#small-corner"/></svg></div>
+        <div class="card-ornament co-br" style="transform:scale(-1,-1)"><svg><use href="#small-corner"/></svg></div>
         <div class="type">Дуэт / Трио</div>
         <div class="amount">3 500 &#8381;</div>
         <div class="per">с гимнастки</div>
       </div>
-      <div class="price-card reveal reveal-d4">
+      <div class="price-card reveal reveal-d4 reveal-right">
+        <div class="card-ornament co-tl"><svg><use href="#small-corner"/></svg></div>
+        <div class="card-ornament co-tr" style="transform:scaleX(-1)"><svg><use href="#small-corner"/></svg></div>
+        <div class="card-ornament co-bl" style="transform:scaleY(-1)"><svg><use href="#small-corner"/></svg></div>
+        <div class="card-ornament co-br" style="transform:scale(-1,-1)"><svg><use href="#small-corner"/></svg></div>
         <div class="type">ОФП</div>
         <div class="amount">3 500 &#8381;</div>
         <div class="per">с гимнастки</div>
@@ -1200,8 +1463,16 @@ footer p + p {
   </div>
 </div>
 
+<!-- ===== SEPARATOR ===== -->
+<div class="section-separator"></div>
+
 <!-- ===== ПОДАЧА ЗАЯВОК ===== -->
 <div class="section section-alt" id="registration">
+  <div class="section-ornament so-tl"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-tr"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-bl"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-br"><svg><use href="#ornate-corner"/></svg></div>
+
   <div class="content-wrap">
     <div class="reveal">
       <div class="section-title">Подача заявок</div>
@@ -1216,7 +1487,7 @@ footer p + p {
       <div class="deadline-label">Дедлайн: 17 мая 2026 г.</div>
     </div>
 
-    <div class="card reveal">
+    <div class="card reveal reveal-left">
       <h3>Как подать заявку</h3>
       <ul>
         <li>Направьте заявку на <a href="mailto:gimnastica_vzlet@mail.ru">gimnastica_vzlet@mail.ru</a></li>
@@ -1225,7 +1496,7 @@ footer p + p {
       </ul>
     </div>
 
-    <div class="card reveal">
+    <div class="card reveal reveal-right">
       <h3>Документы для мандатной комиссии</h3>
       <ul>
         <li>Заявка с печатью и подписью руководителя и врача</li>
@@ -1234,7 +1505,7 @@ footer p + p {
       </ul>
     </div>
 
-    <div class="card reveal">
+    <div class="card reveal reveal-left">
       <h3>Расписание дня</h3>
       <ul>
         <li><strong>8:30</strong> &mdash; мандатная комиссия</li>
@@ -1243,15 +1514,23 @@ footer p + p {
       </ul>
     </div>
 
-    <div class="card reveal">
+    <div class="card reveal reveal-right">
       <h3>Медицинское обеспечение</h3>
       <p>К участию допускаются гимнастки с медицинским допуском и договором страхования от несчастных случаев.</p>
     </div>
   </div>
 </div>
 
+<!-- ===== SEPARATOR ===== -->
+<div class="section-separator"></div>
+
 <!-- ===== КОНТАКТЫ ===== -->
 <div class="section">
+  <div class="section-ornament so-tl"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-tr"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-bl"><svg><use href="#ornate-corner"/></svg></div>
+  <div class="section-ornament so-br"><svg><use href="#ornate-corner"/></svg></div>
+
   <div class="content-wrap">
     <div class="reveal">
       <div class="section-title">Контакты</div>
@@ -1262,23 +1541,31 @@ footer p + p {
       </div>
     </div>
 
-    <div class="contact-block reveal">
-      <div class="contact-name">Булатова Анастасия Владимировна</div>
-      <div class="contact-phone"><a href="tel:+79167373293">+7 (916) 737-32-93</a></div>
-      <div class="contact-email">
-        <a href="mailto:gimnastica_vzlet@mail.ru">gimnastica_vzlet@mail.ru</a>
-      </div>
+    <div class="contact-frame reveal">
+      <!-- Contact frame corner ornaments -->
+      <div class="card-ornament co-tl"><svg><use href="#small-corner"/></svg></div>
+      <div class="card-ornament co-tr" style="transform:scaleX(-1)"><svg><use href="#small-corner"/></svg></div>
+      <div class="card-ornament co-bl" style="transform:scaleY(-1)"><svg><use href="#small-corner"/></svg></div>
+      <div class="card-ornament co-br" style="transform:scale(-1,-1)"><svg><use href="#small-corner"/></svg></div>
 
-      <div class="contact-address">
-        г. Москва, ул. 1-я Владимирская, 10Дс3<br>
-        СК &laquo;Луч&raquo;
-      </div>
+      <div class="contact-block">
+        <div class="contact-name">Булатова Анастасия Владимировна</div>
+        <div class="contact-phone"><a href="tel:+79167373293">+7 (916) 737-32-93</a></div>
+        <div class="contact-email">
+          <a href="mailto:gimnastica_vzlet@mail.ru">gimnastica_vzlet@mail.ru</a>
+        </div>
 
-      <div class="contact-cta">
-        <a href="mailto:gimnastica_vzlet@mail.ru" class="btn-cta" style="opacity:1; animation:none;">Подать заявку</a>
-      </div>
+        <div class="contact-address">
+          г. Москва, ул. 1-я Владимирская, 10Дс3<br>
+          СК &laquo;Луч&raquo;
+        </div>
 
-      <div class="contact-org">Организатор: ЦХГ &laquo;Взлёт&raquo;</div>
+        <div class="contact-cta">
+          <a href="mailto:gimnastica_vzlet@mail.ru" class="btn-cta" style="opacity:1; animation:none;">Подать заявку</a>
+        </div>
+
+        <div class="contact-org">Организатор: ЦХГ &laquo;Взлёт&raquo;</div>
+      </div>
     </div>
   </div>
 </div>
@@ -1297,7 +1584,7 @@ footer p + p {
 (function() {
   'use strict';
 
-  // IntersectionObserver for scroll reveal
+  // IntersectionObserver for scroll reveal (supports reveal, reveal-left, reveal-right)
   var observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
       if (entry.isIntersecting) {
@@ -1311,7 +1598,7 @@ footer p + p {
     threshold: 0.1
   });
 
-  document.querySelectorAll('.reveal').forEach(function(el) {
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(function(el) {
     observer.observe(el);
   });
 
@@ -1326,6 +1613,28 @@ footer p + p {
       }
     });
   });
+
+  // Parallax-like effect on scroll for section backgrounds
+  var sections = document.querySelectorAll('.section');
+  var ticking = false;
+  function onScroll() {
+    if (!ticking) {
+      requestAnimationFrame(function() {
+        var scrollY = window.pageYOffset;
+        sections.forEach(function(section) {
+          var rect = section.getBoundingClientRect();
+          var offset = (rect.top + rect.height / 2 - window.innerHeight / 2) * 0.03;
+          var bg = section.querySelector(':scope > .section-ornament');
+          // Shift the pseudo-element via CSS custom property
+          section.style.setProperty('--parallax-y', offset + 'px');
+          section.style.backgroundPositionY = offset + 'px';
+        });
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
 })();
 </script>
 
