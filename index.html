@@ -803,6 +803,14 @@ tbody tr:hover { background: rgba(243,229,245,0.5); }
 }
 
 /* ===== ILLUSTRATION DIVIDER ===== */
+.skazka-ornament {
+  height: 40px;
+  margin: 10px auto;
+  max-width: 400px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 40'%3E%3Cpath d='M0 20 Q50 5 100 20 Q150 35 200 20 Q250 5 300 20 Q350 35 400 20' fill='none' stroke='%23c9a96e' stroke-width='1.5' opacity='0.5'/%3E%3Ccircle cx='100' cy='20' r='3' fill='%23e8446d' opacity='0.4'/%3E%3Ccircle cx='200' cy='20' r='4' fill='%23c9a96e' opacity='0.5'/%3E%3Ccircle cx='300' cy='20' r='3' fill='%23e8446d' opacity='0.4'/%3E%3C/svg%3E") no-repeat center;
+  background-size: contain;
+}
+
 .illustration-divider {
   text-align: center;
   padding: 20px;
@@ -1153,7 +1161,7 @@ footer {
 </section>
 
 <!-- ILLUSTRATION DIVIDER -->
-<div class="illustration-divider reveal">&#129648; &#127872; &#129723; &#127895; &#129648;</div>
+<div class="skazka-ornament reveal"></div>
 
 <!-- ===== ГРУППОВЫЕ УПРАЖНЕНИЯ ===== -->
 <div class="section-purple">
@@ -1483,7 +1491,7 @@ footer {
     <circle cx="300" cy="15" r="2" fill="#b8860b" opacity="0.3"/>
     <circle cx="450" cy="15" r="2" fill="#e8446d" opacity="0.3"/>
   </svg>
-  <div class="illustration-divider" style="font-size:24px; letter-spacing:12px; opacity:0.3; padding: 10px;">&#129648; &#127872; &#128081; &#127872; &#129648;</div>
+  <div class="skazka-ornament"></div>
   <p style="font-family: 'Cormorant Garamond', serif; font-size: 14px; color: var(--text-light);">Данное положение является официальным приглашением на турнир</p>
   <p style="margin-top:8px; font-family: 'Cormorant Garamond', serif;">&copy; 2026 ЦХГ &laquo;Взлёт&raquo;</p>
 </footer>
