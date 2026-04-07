@@ -10,22 +10,27 @@
 :root {
   --cream: #faf8f5;
   --warm-white: #fdfcfa;
-  --rose-gold: #c4a882;
-  --rose-gold-light: #d4bc9a;
-  --rose-gold-pale: rgba(196,168,130,0.12);
-  --burgundy: #8b2252;
-  --burgundy-light: rgba(139,34,82,0.08);
+  --rose-gold: #d4a017;
+  --rose-gold-light: #e0b530;
+  --rose-gold-pale: rgba(212,160,23,0.12);
+  --burgundy: #d6006e;
+  --burgundy-light: rgba(214,0,110,0.08);
   --blush: #f0e0e6;
   --blush-light: #f7eff2;
   --text: #2d2a26;
-  --text-secondary: #6b645c;
-  --text-tertiary: #9a938b;
-  --border: rgba(196,168,130,0.25);
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,0.08);
+  --text-secondary: #5a5550;
+  --text-tertiary: #8a837b;
+  --border: rgba(212,160,23,0.35);
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.10);
+  --shadow-lg: 0 8px 36px rgba(0,0,0,0.12);
   --radius: 14px;
   --transition: 0.3s ease;
+  --purple: #7b2d8e;
+  --teal: #00897b;
+  --section-pink: #fff0f5;
+  --section-lavender: #f3e8ff;
+  --section-gold: #fef3d0;
 }
 
 /* ===== RESET ===== */
@@ -74,7 +79,7 @@ body {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: linear-gradient(135deg, var(--cream) 0%, var(--blush-light) 50%, var(--cream) 100%);
+  background: linear-gradient(135deg, #ffe0ec 0%, #fef3d0 30%, #f3e8ff 60%, #ffe0ec 100%);
   background-size: 400% 400%;
   animation: heroGradient 20s ease infinite;
 }
@@ -92,7 +97,7 @@ body {
   transform: translate(-50%, -50%);
   width: 400px;
   height: 500px;
-  opacity: 0.035;
+  opacity: 0.12;
   pointer-events: none;
   z-index: 1;
 }
@@ -111,7 +116,7 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  border: 1px solid var(--border);
+  border: 2px solid var(--rose-gold);
   border-radius: 2px;
   pointer-events: none;
 }
@@ -121,7 +126,7 @@ body {
   content: '';
   position: absolute;
   inset: 8px;
-  border: 1px solid rgba(196,168,130,0.12);
+  border: 1px solid rgba(212,160,23,0.3);
   border-radius: 1px;
   pointer-events: none;
 }
@@ -154,14 +159,23 @@ body {
 
 .hero h1 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(3rem, 8vw, 5.5rem);
-  font-weight: 300;
-  color: var(--text);
+  font-size: clamp(3.5rem, 10vw, 7rem);
+  font-weight: 700;
+  background: linear-gradient(135deg, #c8960c, #e8c840, #d4a017, #e8c840, #c8960c);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: fadeIn 0.8s ease 0.35s forwards, shimmer 3s ease-in-out infinite;
   line-height: 1.05;
   margin-bottom: 12px;
   letter-spacing: 0.02em;
   opacity: 0;
-  animation: fadeIn 0.8s ease 0.35s forwards;
+}
+
+@keyframes shimmer {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
 }
 
 .hero .subtitle {
@@ -202,39 +216,41 @@ body {
 
 .hero-detail .value {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.15rem;
-  font-weight: 600;
-  color: var(--text);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--burgundy);
 }
 
 .hero-divider {
-  width: 1px;
+  width: 2px;
   height: 36px;
-  background: var(--border);
+  background: var(--rose-gold);
   align-self: center;
 }
 
 .btn-cta {
   display: inline-block;
-  padding: 14px 40px;
+  padding: 16px 44px;
   font-family: 'Inter', sans-serif;
-  font-size: 11px;
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 600;
   letter-spacing: 3px;
   text-transform: uppercase;
   text-decoration: none;
-  color: var(--rose-gold);
-  border: 1px solid var(--rose-gold);
-  border-radius: 0;
-  background: transparent;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #d6006e, #e91e8c);
+  box-shadow: 0 4px 16px rgba(214,0,110,0.35);
   transition: all var(--transition);
   opacity: 0;
   animation: fadeIn 0.8s ease 0.8s forwards;
 }
 
 .btn-cta:hover {
-  background: var(--rose-gold);
-  color: #fff;
+  background: linear-gradient(135deg, #c2005f, #d6006e);
+  box-shadow: 0 6px 24px rgba(214,0,110,0.45);
+  transform: translateY(-2px);
 }
 
 @keyframes fadeIn {
@@ -255,15 +271,19 @@ body {
 }
 
 .section-alt {
-  background: var(--warm-white);
+  background: var(--section-pink);
 }
+
+.section:nth-of-type(3) { background: var(--section-lavender); }
+.section:nth-of-type(5) { background: var(--section-lavender); }
+.section:nth-of-type(7) { background: var(--section-gold); }
 
 .section-title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1.8rem, 4vw, 2.4rem);
-  font-weight: 400;
+  font-size: clamp(2.2rem, 5vw, 3rem);
+  font-weight: 700;
   text-align: center;
-  color: var(--text);
+  color: var(--burgundy);
   letter-spacing: 0.03em;
   margin-bottom: 8px;
 }
@@ -291,15 +311,15 @@ body {
 
 .divider-line {
   flex: 1;
-  height: 1px;
+  height: 2px;
   background: linear-gradient(90deg, transparent, var(--rose-gold), transparent);
 }
 
 .divider-dot {
-  width: 4px;
-  height: 4px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: var(--rose-gold);
+  background: var(--burgundy);
 }
 
 /* Section separator between sections */
@@ -323,13 +343,17 @@ body {
   padding: 32px 24px;
   text-align: center;
   box-shadow: var(--shadow-sm);
-  border: 1px solid rgba(196,168,130,0.1);
+  border: 1px solid rgba(212,160,23,0.15);
+  border-bottom: 3px solid var(--rose-gold);
   transition: transform var(--transition), box-shadow var(--transition);
 }
 
+.goal-card:nth-child(2), .goal-card:nth-child(5) { border-bottom-color: var(--burgundy); }
+.goal-card:nth-child(3), .goal-card:nth-child(6) { border-bottom-color: var(--purple); }
+
 .goal-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
 }
 
 .goal-card p {
@@ -346,8 +370,17 @@ body {
   border-radius: var(--radius);
   padding: 36px;
   box-shadow: var(--shadow-sm);
-  border: 1px solid rgba(196,168,130,0.08);
-  transition: transform var(--transition), box-shadow var(--transition);
+  border: 1px solid rgba(212,160,23,0.15);
+  border-left: 4px solid var(--rose-gold);
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.card:nth-child(even) {
+  border-left-color: var(--burgundy);
+}
+
+.card:nth-child(3n) {
+  border-left-color: var(--purple);
 }
 
 .card:hover {
@@ -361,9 +394,9 @@ body {
 
 .card h3 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--text);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--burgundy);
   margin-bottom: 16px;
 }
 
@@ -449,7 +482,7 @@ table {
 }
 
 thead {
-  background: var(--text);
+  background: linear-gradient(135deg, var(--purple), #c2185b);
   position: sticky;
   top: 0;
   z-index: 2;
@@ -494,10 +527,10 @@ tbody tr:hover {
 
 .table-label {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1.3rem;
+  font-weight: 700;
   text-align: center;
-  color: var(--text);
+  color: var(--burgundy);
   margin: 40px 0 16px;
 }
 
@@ -513,21 +546,24 @@ tbody tr:hover {
   border-radius: var(--radius);
   padding: 32px 28px;
   box-shadow: var(--shadow-sm);
-  border: 1px solid rgba(196,168,130,0.08);
-  border-top: 2px solid var(--rose-gold);
+  border: 1px solid rgba(212,160,23,0.15);
+  border-top: 4px solid var(--rose-gold);
   transition: transform var(--transition), box-shadow var(--transition);
 }
 
+.ofp-card:nth-child(2) { border-top-color: var(--burgundy); }
+.ofp-card:nth-child(3) { border-top-color: var(--purple); }
+
 .ofp-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
 }
 
 .ofp-card h4 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.15rem;
-  font-weight: 600;
-  color: var(--text);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--burgundy);
   margin-bottom: 20px;
 }
 
@@ -559,19 +595,21 @@ tbody tr:hover {
 /* ===== AWARDS HIGHLIGHT ===== */
 .awards-highlight {
   text-align: center;
-  padding: 28px;
-  border: 1px solid var(--border);
+  padding: 32px;
+  border: none;
   border-radius: var(--radius);
   margin-bottom: 24px;
-  background: rgba(196,168,130,0.04);
+  background: linear-gradient(135deg, #d6006e, #e8445a, #d4a017);
+  box-shadow: 0 4px 20px rgba(214,0,110,0.3);
 }
 
 .awards-highlight p {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--text);
-  letter-spacing: 0.05em;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 /* ===== PRICING ===== */
@@ -588,13 +626,18 @@ tbody tr:hover {
   padding: 32px 16px;
   text-align: center;
   box-shadow: var(--shadow-sm);
-  border: 1px solid rgba(196,168,130,0.08);
+  border: 1px solid rgba(212,160,23,0.15);
+  border-top: 4px solid var(--rose-gold);
   transition: transform var(--transition), box-shadow var(--transition);
 }
 
+.price-card:nth-child(2) { border-top-color: var(--burgundy); }
+.price-card:nth-child(3) { border-top-color: var(--purple); }
+.price-card:nth-child(4) { border-top-color: var(--teal); }
+
 .price-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
 }
 
 .price-card .type {
@@ -609,9 +652,9 @@ tbody tr:hover {
 
 .price-card .amount {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 2rem;
-  font-weight: 600;
-  color: var(--text);
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--burgundy);
   line-height: 1;
 }
 
@@ -644,13 +687,14 @@ tbody tr:hover {
 }
 
 .contact-phone a {
-  color: var(--text);
+  color: var(--burgundy);
   text-decoration: none;
+  font-weight: 600;
   transition: color var(--transition);
 }
 
 .contact-phone a:hover {
-  color: var(--burgundy);
+  color: #c2005f;
 }
 
 .contact-email a {
@@ -693,22 +737,30 @@ tbody tr:hover {
 .deadline-label {
   display: inline-block;
   font-family: 'Inter', sans-serif;
-  font-size: 11px;
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 600;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--burgundy);
-  padding: 10px 28px;
-  border: 1px solid rgba(139,34,82,0.25);
-  border-radius: 0;
+  color: #fff;
+  padding: 14px 36px;
+  background: linear-gradient(135deg, #d6006e, #e91e8c);
+  border: none;
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(214,0,110,0.35);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 4px 16px rgba(214,0,110,0.35); }
+  50% { box-shadow: 0 4px 24px rgba(214,0,110,0.55); }
 }
 
 /* ===== PAYMENT NOTE ===== */
 .payment-note {
   text-align: center;
   padding: 24px;
-  background: rgba(196,168,130,0.04);
-  border: 1px solid var(--border);
+  background: rgba(214,0,110,0.05);
+  border: 2px solid rgba(214,0,110,0.2);
   border-radius: var(--radius);
 }
 
@@ -789,7 +841,7 @@ footer p + p {
 
 @media (max-width: 480px) {
   .hero h1 {
-    font-size: clamp(2.5rem, 12vw, 3.5rem);
+    font-size: clamp(2.8rem, 12vw, 4.5rem);
   }
 
   .hero-frame {
@@ -835,30 +887,30 @@ footer p + p {
     <!-- Corner ornaments -->
     <div class="corner-ornament corner-tl">
       <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 0 L12 0" stroke="#c4a882" stroke-width="1"/>
-        <path d="M0 0 L0 12" stroke="#c4a882" stroke-width="1"/>
-        <path d="M4 0 Q4 4 0 4" stroke="#c4a882" stroke-width="0.5" opacity="0.5"/>
+        <path d="M0 0 L12 0" stroke="#d4a017" stroke-width="1"/>
+        <path d="M0 0 L0 12" stroke="#d4a017" stroke-width="1"/>
+        <path d="M4 0 Q4 4 0 4" stroke="#d4a017" stroke-width="1" opacity="0.7"/>
       </svg>
     </div>
     <div class="corner-ornament corner-tr">
       <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 0 L12 0" stroke="#c4a882" stroke-width="1"/>
-        <path d="M0 0 L0 12" stroke="#c4a882" stroke-width="1"/>
-        <path d="M4 0 Q4 4 0 4" stroke="#c4a882" stroke-width="0.5" opacity="0.5"/>
+        <path d="M0 0 L12 0" stroke="#d4a017" stroke-width="1"/>
+        <path d="M0 0 L0 12" stroke="#d4a017" stroke-width="1"/>
+        <path d="M4 0 Q4 4 0 4" stroke="#d4a017" stroke-width="1" opacity="0.7"/>
       </svg>
     </div>
     <div class="corner-ornament corner-bl">
       <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 0 L12 0" stroke="#c4a882" stroke-width="1"/>
-        <path d="M0 0 L0 12" stroke="#c4a882" stroke-width="1"/>
-        <path d="M4 0 Q4 4 0 4" stroke="#c4a882" stroke-width="0.5" opacity="0.5"/>
+        <path d="M0 0 L12 0" stroke="#d4a017" stroke-width="1"/>
+        <path d="M0 0 L0 12" stroke="#d4a017" stroke-width="1"/>
+        <path d="M4 0 Q4 4 0 4" stroke="#d4a017" stroke-width="1" opacity="0.7"/>
       </svg>
     </div>
     <div class="corner-ornament corner-br">
       <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 0 L12 0" stroke="#c4a882" stroke-width="1"/>
-        <path d="M0 0 L0 12" stroke="#c4a882" stroke-width="1"/>
-        <path d="M4 0 Q4 4 0 4" stroke="#c4a882" stroke-width="0.5" opacity="0.5"/>
+        <path d="M0 0 L12 0" stroke="#d4a017" stroke-width="1"/>
+        <path d="M0 0 L0 12" stroke="#d4a017" stroke-width="1"/>
+        <path d="M4 0 Q4 4 0 4" stroke="#d4a017" stroke-width="1" opacity="0.7"/>
       </svg>
     </div>
 
@@ -1234,7 +1286,7 @@ footer p + p {
 <!-- ===== FOOTER ===== -->
 <footer>
   <svg viewBox="0 0 200 1" xmlns="http://www.w3.org/2000/svg" style="width:120px; height:1px; display:block; margin:0 auto 24px;">
-    <line x1="0" y1="0.5" x2="200" y2="0.5" stroke="#c4a882" stroke-width="0.5" opacity="0.5"/>
+    <line x1="0" y1="0.5" x2="200" y2="0.5" stroke="#d4a017" stroke-width="1" opacity="0.7"/>
   </svg>
   <p>Данное положение является официальным приглашением на турнир</p>
   <p>&copy; 2026 ЦХГ &laquo;Взлёт&raquo;</p>
