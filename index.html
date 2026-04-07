@@ -51,27 +51,27 @@ body {
 /* ===== SCROLL REVEAL — slide from left/right alternating ===== */
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(24px) scale(0.95);
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .reveal.visible {
   opacity: 1;
-  transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0) scale(1);
 }
 .reveal-left {
   opacity: 0;
-  transform: translateX(-60px);
-  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateX(-60px) scale(0.95);
+  transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1), transform 1s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .reveal-right {
   opacity: 0;
-  transform: translateX(60px);
-  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateX(60px) scale(0.95);
+  transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1), transform 1s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .reveal-left.visible,
 .reveal-right.visible {
   opacity: 1;
-  transform: translateX(0);
+  transform: translateX(0) scale(1);
 }
 .reveal-d1 { transition-delay: 0.08s; }
 .reveal-d2 { transition-delay: 0.16s; }
@@ -92,12 +92,12 @@ body {
   text-align: center;
   letter-spacing: 0.03em;
   margin-bottom: 8px;
-  background: linear-gradient(90deg, var(--burgundy) 0%, var(--burgundy) 35%, #e8c840 50%, var(--burgundy) 65%, var(--burgundy) 100%);
+  background: linear-gradient(90deg, var(--burgundy) 0%, var(--burgundy) 25%, #ffd54f 45%, #fff8e1 50%, #ffd54f 55%, var(--burgundy) 75%, var(--burgundy) 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: goldShimmer 4s ease-in-out infinite;
+  animation: goldShimmer 3s ease-in-out infinite;
 }
 
 /* ===== DIVIDER GROW ANIMATION ===== */
@@ -129,6 +129,18 @@ body {
 @keyframes floatBob {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
+}
+
+/* ===== CONTINUOUS BREATHING ANIMATION FOR CARDS ===== */
+@keyframes cardBreathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+/* ===== CTA GLOW PULSE ===== */
+@keyframes ctaGlow {
+  0%, 100% { box-shadow: 0 4px 16px rgba(214,0,110,0.35); }
+  50% { box-shadow: 0 4px 28px rgba(214,0,110,0.6), 0 0 12px rgba(214,0,110,0.25); }
 }
 
 /* ===== HERO ===== */
@@ -260,12 +272,12 @@ body {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(3.5rem, 10vw, 7rem);
   font-weight: 700;
-  background: linear-gradient(135deg, #c8960c, #e8c840, #d4a017, #e8c840, #c8960c);
+  background: linear-gradient(135deg, #c8960c, #ffd54f, #fff8e1, #ffd54f, #c8960c);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: fadeIn 0.8s ease 0.35s forwards, shimmer 3s ease-in-out infinite;
+  animation: fadeIn 0.8s ease 0.35s forwards, shimmer 2.5s ease-in-out infinite;
   line-height: 1.05;
   margin-bottom: 12px;
   letter-spacing: 0.02em;
@@ -343,13 +355,18 @@ body {
   box-shadow: 0 4px 16px rgba(214,0,110,0.35);
   transition: all var(--transition);
   opacity: 0;
-  animation: fadeIn 0.8s ease 0.8s forwards;
+  animation: fadeIn 0.8s ease 0.8s forwards, ctaGlow 2.5s ease-in-out 1.6s infinite;
 }
 
 .btn-cta:hover {
   background: linear-gradient(135deg, #c2005f, #d6006e);
   box-shadow: 0 6px 24px rgba(214,0,110,0.45);
   transform: translateY(-2px);
+}
+
+.btn-cta:active {
+  transform: scale(0.96);
+  box-shadow: 0 2px 8px rgba(214,0,110,0.5);
 }
 
 @keyframes fadeIn {
@@ -491,14 +508,20 @@ body {
   border: 1px solid rgba(212,160,23,0.15);
   border-bottom: 3px solid var(--rose-gold);
   transition: transform var(--transition), box-shadow var(--transition);
+  animation: cardBreathe 3.5s ease-in-out infinite;
 }
 
-.goal-card:nth-child(2), .goal-card:nth-child(5) { border-bottom-color: var(--burgundy); }
-.goal-card:nth-child(3), .goal-card:nth-child(6) { border-bottom-color: var(--purple); }
+.goal-card:nth-child(2), .goal-card:nth-child(5) { border-bottom-color: var(--burgundy); animation-delay: 0.5s; }
+.goal-card:nth-child(3), .goal-card:nth-child(6) { border-bottom-color: var(--purple); animation-delay: 1s; }
 
 .goal-card:hover {
   animation: floatBob 1.5s ease-in-out infinite;
   box-shadow: var(--shadow-lg);
+}
+
+.goal-card:active {
+  transform: scale(0.97);
+  box-shadow: var(--shadow-md), 0 0 16px rgba(212,160,23,0.3);
 }
 
 .goal-card p {
@@ -519,19 +542,27 @@ body {
   border-left: 4px solid var(--rose-gold);
   transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
   position: relative;
+  animation: cardBreathe 4s ease-in-out infinite;
 }
 
 .card:nth-child(even) {
   border-left-color: var(--burgundy);
+  animation-delay: 0.6s;
 }
 
 .card:nth-child(3n) {
   border-left-color: var(--purple);
+  animation-delay: 1.2s;
 }
 
 .card:hover {
   animation: floatBob 1.5s ease-in-out infinite;
   box-shadow: var(--shadow-md);
+}
+
+.card:active {
+  transform: scale(0.97);
+  box-shadow: var(--shadow-md), 0 0 16px rgba(212,160,23,0.3);
 }
 
 .card + .card {
@@ -696,14 +727,20 @@ tbody tr:hover {
   border: 1px solid rgba(212,160,23,0.15);
   border-top: 4px solid var(--rose-gold);
   transition: transform var(--transition), box-shadow var(--transition);
+  animation: cardBreathe 3.5s ease-in-out infinite;
 }
 
-.ofp-card:nth-child(2) { border-top-color: var(--burgundy); }
-.ofp-card:nth-child(3) { border-top-color: var(--purple); }
+.ofp-card:nth-child(2) { border-top-color: var(--burgundy); animation-delay: 0.5s; }
+.ofp-card:nth-child(3) { border-top-color: var(--purple); animation-delay: 1s; }
 
 .ofp-card:hover {
   animation: floatBob 1.5s ease-in-out infinite;
   box-shadow: var(--shadow-lg);
+}
+
+.ofp-card:active {
+  transform: scale(0.97);
+  box-shadow: var(--shadow-md), 0 0 16px rgba(212,160,23,0.3);
 }
 
 .ofp-card h4 {
@@ -778,15 +815,21 @@ tbody tr:hover {
   transition: transform var(--transition), box-shadow var(--transition);
   position: relative;
   overflow: hidden;
+  animation: cardBreathe 3.5s ease-in-out infinite;
 }
 
-.price-card:nth-child(2) { border-top-color: var(--burgundy); }
-.price-card:nth-child(3) { border-top-color: var(--purple); }
-.price-card:nth-child(4) { border-top-color: var(--teal); }
+.price-card:nth-child(2) { border-top-color: var(--burgundy); animation-delay: 0.4s; }
+.price-card:nth-child(3) { border-top-color: var(--purple); animation-delay: 0.8s; }
+.price-card:nth-child(4) { border-top-color: var(--teal); animation-delay: 1.2s; }
 
 .price-card:hover {
   animation: floatBob 1.5s ease-in-out infinite;
   box-shadow: var(--shadow-lg);
+}
+
+.price-card:active {
+  transform: scale(0.97);
+  box-shadow: var(--shadow-md), 0 0 16px rgba(212,160,23,0.3);
 }
 
 .price-card .type {
@@ -1005,8 +1048,15 @@ footer p + p {
   }
 
   .section-ornament {
-    width: 40px;
-    height: 40px;
+    width: 72px;
+    height: 72px;
+    opacity: 0.4;
+  }
+
+  .card-ornament {
+    width: 32px;
+    height: 32px;
+    opacity: 0.35;
   }
 }
 
@@ -1032,13 +1082,20 @@ footer p + p {
   }
 
   .corner-ornament {
-    width: 36px;
-    height: 36px;
+    width: 60px;
+    height: 60px;
   }
 
   .section-ornament {
-    width: 32px;
-    height: 32px;
+    width: 64px;
+    height: 64px;
+    opacity: 0.35;
+  }
+
+  .card-ornament {
+    width: 30px;
+    height: 30px;
+    opacity: 0.35;
   }
 }
 </style>
@@ -1561,7 +1618,7 @@ footer p + p {
         </div>
 
         <div class="contact-cta">
-          <a href="mailto:gimnastica_vzlet@mail.ru" class="btn-cta" style="opacity:1; animation:none;">Подать заявку</a>
+          <a href="mailto:gimnastica_vzlet@mail.ru" class="btn-cta" style="opacity:1; animation:ctaGlow 2.5s ease-in-out infinite;">Подать заявку</a>
         </div>
 
         <div class="contact-org">Организатор: ЦХГ &laquo;Взлёт&raquo;</div>
